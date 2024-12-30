@@ -9,7 +9,7 @@ def get_nwn_server_players_count(ip, port):
 
     try:
         groups = re.findall(constant.NWN_CHECKER_URL_PLAYER_COUNT_REGEX, response.text)
-        count = groups[0][constant.NWN_CHECKER_REGEX_PLAYER_COUNT_GROUP]
+        count = groups[0][int(constant.NWN_CHECKER_URL_PLAYER_COUNT_REGEX_GROUP_0_X)]
     except Exception as e:
         groups = re.findall(constant.NWN_CHECKER_URL_SERVER_OFFLINE_REGEX, response.text)
         if len(groups) > 0:

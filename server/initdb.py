@@ -31,6 +31,10 @@ def init():
         session.merge(Property(key="NWN_CHECKER_URL", value=constant.NWN_CHECKER_URL))
         session.merge(Property(key="NWN_CHECKER_URL_PLAYER_COUNT_REGEX", value=constant.NWN_CHECKER_URL_PLAYER_COUNT_REGEX))
         session.merge(Property(key="NWN_CHECKER_URL_SERVER_OFFLINE_REGEX", value=constant.NWN_CHECKER_URL_SERVER_OFFLINE_REGEX))
+        session.merge(Property(key="NWN_CHECKER_URL_INTERVAL_CRON_PER_HOUR", value=constant.NWN_CHECKER_URL_INTERVAL_CRON_PER_HOUR))
+        session.merge(Property(key="PASSWORD_SHA_3_512", value=constant.PASSWORD_SHA_3_512))
+        session.merge(Property(key="NWN_CHECKER_URL_PLAYER_COUNT_REGEX_GROUP_0_X", value=constant.NWN_CHECKER_URL_PLAYER_COUNT_REGEX_GROUP_0_X))
+        session.merge(Property(key="NWN_CHECKER_URL_INTERVAL_UPDATE_DB_SECONDS", value=constant.NWN_CHECKER_URL_INTERVAL_UPDATE_DB_SECONDS))
 
         session.commit()
 

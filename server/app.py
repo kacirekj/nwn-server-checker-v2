@@ -1,4 +1,7 @@
 # Imports
+import json
+import logging
+from http.client import HTTPException
 
 from flask_apscheduler import APScheduler
 from flask import Flask, send_from_directory, request, redirect, url_for
@@ -21,21 +24,23 @@ app.json_encoder = CustomJSONEncoder
 
 # Init SqlAclhemy
 
-engine = create_engine(f"sqlite:///{DATA_DIR}/sqlite.db", echo=True)
+engine = create_engine(f"sqlite:///{DATA_DIR}/sqlite.db")
 session_factory = sessionmaker(bind=engine)
 scoped_factory = scoped_session(session_factory)
 
+import repository
+import rest
+import constant
+import service
+
 # Init Scheduler
 
+service.reload_properties()
 scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
 
-# Post imports
-
 import job
-import rest
-import repository
 
 
 @app.route('/')
@@ -69,6 +74,16 @@ def teardown_request(exception):
         print('Rollback')
         session.rollback()
     session.close()
+
+
+@app.errorhandler(Exception)
+def handle_http_exception(e):
+    response = {
+        "error": e.name,
+        "message": e.description,
+        "status_code": e.code
+    }
+    return json.dumps(response), e.code
 
 
 if __name__ == '__main__':

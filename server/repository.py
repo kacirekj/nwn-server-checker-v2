@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 from model import ModulePresence
 from __main__ import scoped_factory
 
-import constant
 from server.model import ModuleInfo, Property
 
 
@@ -40,13 +39,15 @@ def delete_module_info(ids):
 # Module presence
 
 
-def get_module_presences(ids=None, module_info_id=None) -> List[ModulePresence]:
+def get_module_presences(ids=None, module_info_id=None, timestamp_min=None) -> List[ModulePresence]:
     session = scoped_factory()
     q = select(ModulePresence)
     if module_info_id is not None:
         q = q.where(ModulePresence.module_info_id == module_info_id)
     if ids:
         q = q.where(ModulePresence.id.in_(ids))
+    if timestamp_min:
+        q = q.where(ModulePresence.timestamp > timestamp_min)
     q.order_by(ModulePresence.timestamp.asc())
     return session.scalars(q).all()
 

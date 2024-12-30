@@ -3,7 +3,7 @@ from __main__ import app
 from dataclasses import asdict
 
 import repository
-import util
+import validator
 from flask import request
 import mapper
 
@@ -21,6 +21,7 @@ def get_module_infos():
 
 @app.post('/api/module-infos')
 def upsert_module_infos():
+    validator.validate_password(request)
     module_infos = mapper.to_module_infos(request.json)
     results = repository.upsert_module_infos(module_infos)
     return [asdict(result) for result in results]
@@ -28,7 +29,9 @@ def upsert_module_infos():
 
 @app.delete('/api/module-infos')
 def delete_module_infos():
+    validator.validate_password(request)
     ids = request.args.getlist('ids[]')
+    password = request.args.getlist('password')
     repository.delete_module_info(ids)
     return ""
 
@@ -64,6 +67,7 @@ def get_properties():
 
 @app.post('/api/properties')
 def upsert_properties():
+    validator.validate_password(request)
     properties = mapper.to_properties(request.json)
     results = repository.upsert_properties(properties)
     return [asdict(result) for result in results]

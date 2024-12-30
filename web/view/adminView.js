@@ -115,8 +115,8 @@ export default {
                 "Items deleted: " + deletes.map(u => u.name).join(", ")
             );
             if (result) {
-                await this.$connector.upsertModuleInfos(upserts);
-                await this.$connector.deleteModuleInfos(deletes.map(d => d.id));
+                await this.$connector.upsertModuleInfos(upserts, this.password);
+                await this.$connector.deleteModuleInfos(deletes.map(d => d.id), this.password);
                 this.moduleInfos = await this.$connector.getModuleInfos();
             }
         },
@@ -129,11 +129,8 @@ export default {
             this.moduleInfos = [tmp, ...this.moduleInfos]
         },
         async saveProperties() {
-            this.properties = await this.$connector.upsertProperties(this.properties)
+            this.properties = await this.$connector.upsertProperties(this.properties, this.password)
         },
-        async deleteModuleInfo(id) {
-            this.moduleInfos = await this.$connector.upsertModuleInfos(this.moduleInfos)
-        }
     },
     async mounted() {
         this.moduleInfos = await this.$connector.getModuleInfos();

@@ -15,6 +15,8 @@ class ModuleInfo(Base):
     name: Mapped[str] = mapped_column(nullable=False)
     ip: Mapped[str] = mapped_column(nullable=False)
     port: Mapped[int] = mapped_column(nullable=False)
+    players: Mapped[int] = mapped_column(nullable=True)
+    updated: Mapped[datetime.datetime] = mapped_column(nullable=True)
 
 
 @dataclass
