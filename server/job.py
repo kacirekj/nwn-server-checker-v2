@@ -8,7 +8,7 @@ import constant
 from server.model import ModulePresence
 
 
-@scheduler.task('interval', seconds=1)
+@scheduler.task('interval', seconds=60)
 def update_module_presences():
     print("Do job")
     module_infos = repository.get_module_infos()
@@ -37,7 +37,7 @@ def update_module_presences():
 
 @scheduler.task('interval', seconds=10)
 def reload_properties():
-    properties = repository.get_property()
+    properties = repository.get_properties()
     constant_module = importlib.import_module('constant')
     for property in properties:
         setattr(constant_module, property.key, property.value)

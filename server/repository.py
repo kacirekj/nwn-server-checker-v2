@@ -33,8 +33,8 @@ def upsert_module_infos(module_infos: List[ModuleInfo]):
     return fresh_module_infos
 
 
-def delete_module_info(id):
-    scoped_factory().query(ModuleInfo).where(ModuleInfo.id.in_([id])).delete()
+def delete_module_info(ids):
+    scoped_factory().query(ModuleInfo).where(ModuleInfo.id.in_(ids)).delete()
 
 
 # Module presence
@@ -64,10 +64,10 @@ def upsert_module_presences(module_presences: List[ModulePresence]):
 # Property
 
 
-def get_property(keys=None) -> List[ModuleInfo]:
+def get_properties(keys=None) -> List[ModuleInfo]:
     session = scoped_factory()
     q = select(Property)
-    if keys is not None:
+    if keys:
         q = q.where(Property.key.in_(keys))
     return session.scalars(q).all()
 
@@ -77,6 +77,7 @@ def upsert_properties(properties: List[Property]):
     for property in properties:
         session.merge(property)
     session.flush()
+    return properties
 
 
 

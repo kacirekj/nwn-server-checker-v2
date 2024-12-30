@@ -26,6 +26,13 @@ def upsert_module_infos():
     return [asdict(result) for result in results]
 
 
+@app.delete('/api/module-infos')
+def delete_module_infos():
+    ids = request.args.getlist('ids[]')
+    repository.delete_module_info(ids)
+    return ""
+
+
 # Module presence
 
 
@@ -37,9 +44,26 @@ def get_module_presences():
     return [asdict(result) for result in results]
 
 
-@app.post('/api/module-presences')
-def upsert_module_presences():
-    ids = request.args.getlist('ids[]')
-    module_info_id = request.args.get('module_info_id')
-    results = repository.get_module_presences(ids, module_info_id)
+# @app.post('/api/module-presences')
+# def upsert_module_presences():
+#     ids = request.args.getlist('ids[]')
+#     module_info_id = request.args.get('module_info_id')
+#     results = repository.get_module_presences(ids, module_info_id)
+#     return [asdict(result) for result in results]
+
+
+# Property
+
+
+@app.get('/api/properties')
+def get_properties():
+    keys = request.args.getlist('keys[]')
+    results = repository.get_properties(keys=keys)
+    return [asdict(result) for result in results]
+
+
+@app.post('/api/properties')
+def upsert_properties():
+    properties = mapper.to_properties(request.json)
+    results = repository.upsert_properties(properties)
     return [asdict(result) for result in results]
