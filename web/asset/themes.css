@@ -1,0 +1,32 @@
+html[data-theme='dark'] {
+    /* foreground   | background color */
+    --cfg:   #cecbc4;
+    --cbg: rgb(12 14 16 / 1);
+    --cdark: #605f5f;
+    --clight: #1a1a1a;
+    --cmed: #293131;
+    --clink: #1ad;
+    --cemph: #0b9;
+    --cemphbg: #0b91;
+
+    --cnavbg: rgb(23, 26, 30);
+    --cnavtext: rgb(209 213 219);
+    --cnavtexthover: rgb(255 255 255);
+    --cnavtextfocus: var(--cnavtexthover);
+    --cnavbuttonbg: var(--cnavbg);
+    --cnavbuttonbghover: rgb(38, 44, 56);
+    --cnavbuttonbgfocus: rgb(4, 6, 9);
+
+}
+
+/* Co to je ? */
+@media (prefers-color-scheme: dark) {
+    html[data-theme='light'] {
+        /* foreground   | background color */
+        --cfg:   #cecbc4; --cbg:    #252220;
+        --cdark: #999;    --clight: #333;
+        --cmed:  #566;
+        --clink: #1ad;
+        --cemph: #0b9;    --cemphbg: #0b91;
+    }
+}
