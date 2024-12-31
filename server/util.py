@@ -1,6 +1,7 @@
 import datetime
 import io
 from datetime import date
+from json import JSONEncoder
 from typing import List
 from zoneinfo import ZoneInfo
 import hashlib
@@ -8,7 +9,6 @@ import hashlib
 import constant
 import matplotlib.dates as md
 import matplotlib.pyplot as plt
-from flask.json import JSONEncoder
 
 from server.model import ModulePresence, ModuleInfo
 
