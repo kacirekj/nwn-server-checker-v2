@@ -3,9 +3,8 @@ import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from model import Base
+from model import Base, ModuleInfo, Property
 import constant
-from server.model import ModuleInfo, Property
 
 id = 0
 date = datetime.date.today()

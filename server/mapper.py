@@ -1,6 +1,6 @@
 from typing import List
 
-from server.model import ModuleInfo, Property
+from model import ModuleInfo, Property
 
 
 def to_module_infos(module_infos: List[dict]):

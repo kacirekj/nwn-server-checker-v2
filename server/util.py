@@ -10,7 +10,7 @@ import constant
 import matplotlib.dates as md
 import matplotlib.pyplot as plt
 
-from server.model import ModulePresence, ModuleInfo
+from model import ModulePresence, ModuleInfo
 
 
 class CustomJSONEncoder(JSONEncoder):

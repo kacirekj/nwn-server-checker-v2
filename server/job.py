@@ -7,7 +7,7 @@ import repository
 import connector
 import util
 import constant
-from server.model import ModulePresence, ModuleInfo
+from model import ModulePresence, ModuleInfo
 
 
 @scheduler.task('cron', minute=constant.NWN_CHECKER_URL_INTERVAL_CRON_PER_HOUR)

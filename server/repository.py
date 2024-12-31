@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from model import ModulePresence
 from __main__ import scoped_factory
 
-from server.model import ModuleInfo, Property
+from model import ModuleInfo, Property
 
 
 # Module info
