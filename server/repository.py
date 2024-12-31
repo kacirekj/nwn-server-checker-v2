@@ -3,8 +3,8 @@ from typing import List
 from sqlalchemy import delete, select, update
 from sqlalchemy.orm import Session
 
+import context
 from model import ModulePresence
-from __main__ import scoped_factory
 
 from model import ModuleInfo, Property
 
@@ -13,7 +13,7 @@ from model import ModuleInfo, Property
 
 
 def get_module_infos(ids=None, name=None) -> List[ModuleInfo]:
-    session = scoped_factory()
+    session = context.scoped_factory()
     q = select(ModuleInfo)
     if name is not None:
         q = q.where(ModuleInfo.name.like(f'%{name}%'))
@@ -23,7 +23,7 @@ def get_module_infos(ids=None, name=None) -> List[ModuleInfo]:
 
 
 def upsert_module_infos(module_infos: List[ModuleInfo]):
-    session: Session = scoped_factory()
+    session: Session = context.scoped_factory()
     fresh_module_infos = []
     for module_info in module_infos:
         fresh_module_info = session.merge(module_info)
@@ -33,14 +33,14 @@ def upsert_module_infos(module_infos: List[ModuleInfo]):
 
 
 def delete_module_info(ids):
-    scoped_factory().query(ModuleInfo).where(ModuleInfo.id.in_(ids)).delete()
+    context.scoped_factory().query(ModuleInfo).where(ModuleInfo.id.in_(ids)).delete()
 
 
 # Module presence
 
 
 def get_module_presences(ids=None, module_info_id=None, timestamp_min=None) -> List[ModulePresence]:
-    session = scoped_factory()
+    session = context.scoped_factory()
     q = select(ModulePresence)
     if module_info_id is not None:
         q = q.where(ModulePresence.module_info_id == module_info_id)
@@ -53,7 +53,7 @@ def get_module_presences(ids=None, module_info_id=None, timestamp_min=None) -> L
 
 
 def upsert_module_presences(module_presences: List[ModulePresence]):
-    session: Session = scoped_factory()
+    session: Session = context.scoped_factory()
     fresh_module_presences = []
     for module_presence in module_presences:
         fresh_module_presence = session.merge(module_presence)
@@ -66,7 +66,7 @@ def upsert_module_presences(module_presences: List[ModulePresence]):
 
 
 def get_properties(keys=None) -> List[ModuleInfo]:
-    session = scoped_factory()
+    session = context.scoped_factory()
     q = select(Property)
     if keys:
         q = q.where(Property.key.in_(keys))
@@ -74,7 +74,7 @@ def get_properties(keys=None) -> List[ModuleInfo]:
 
 
 def upsert_properties(properties: List[Property]):
-    session: Session = scoped_factory()
+    session: Session = context.scoped_factory()
     for property in properties:
         session.merge(property)
     session.flush()

@@ -1,5 +1,4 @@
-import dataclasses
-from __main__ import app
+import context
 from dataclasses import asdict
 
 import repository
@@ -11,7 +10,7 @@ import mapper
 # Module infos
 
 
-@app.get('/api/module-infos')
+@context.app.get('/api/module-infos')
 def get_module_infos():
     ids = request.args.getlist('ids[]')
     name = request.args.get('name')
@@ -19,7 +18,7 @@ def get_module_infos():
     return [asdict(result) for result in results]
 
 
-@app.post('/api/module-infos')
+@context.app.post('/api/module-infos')
 def upsert_module_infos():
     validator.validate_password(request)
     module_infos = mapper.to_module_infos(request.json)
@@ -27,7 +26,7 @@ def upsert_module_infos():
     return [asdict(result) for result in results]
 
 
-@app.delete('/api/module-infos')
+@context.app.delete('/api/module-infos')
 def delete_module_infos():
     validator.validate_password(request)
     ids = request.args.getlist('ids[]')
@@ -39,7 +38,7 @@ def delete_module_infos():
 # Module presence
 
 
-@app.get('/api/module-presences')
+@context.app.get('/api/module-presences')
 def get_module_presences():
     ids = request.args.getlist('ids[]')
     module_info_id = request.args.get('module_info_id')
@@ -58,14 +57,14 @@ def get_module_presences():
 # Property
 
 
-@app.get('/api/properties')
+@context.app.get('/api/properties')
 def get_properties():
     keys = request.args.getlist('keys[]')
     results = repository.get_properties(keys=keys)
     return [asdict(result) for result in results]
 
 
-@app.post('/api/properties')
+@context.app.post('/api/properties')
 def upsert_properties():
     validator.validate_password(request)
     properties = mapper.to_properties(request.json)

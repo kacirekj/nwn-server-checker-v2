@@ -1,5 +1,5 @@
 import datetime
-from __main__ import scheduler, scoped_factory
+import context
 import service
 from datetime import timedelta
 
@@ -10,7 +10,7 @@ import constant
 from model import ModulePresence, ModuleInfo
 
 
-@scheduler.task('cron', minute=constant.NWN_CHECKER_URL_INTERVAL_CRON_PER_HOUR)
+@context.scheduler.task('cron', minute=constant.NWN_CHECKER_URL_INTERVAL_CRON_PER_HOUR)
 def update_module_presences():
     module_infos = repository.get_module_infos()
     for module_info in module_infos:
@@ -25,10 +25,10 @@ def update_module_presences():
 
         # Update Module info
 
-        session = scoped_factory()
+        session = context.scoped_factory()
 
         module_info.players = count
-        module_info.updated = datetime.datetime.utcnow()
+        module_info.updated = datetime.datetime.now(datetime.timezone.utc)
 
         repository.upsert_module_infos([module_info])
 
@@ -36,7 +36,7 @@ def update_module_presences():
 
         # Load latest Module presence
 
-        timestamp_min = datetime.datetime.utcnow() - timedelta(seconds=int(constant.NWN_CHECKER_URL_INTERVAL_UPDATE_DB_SECONDS))
+        timestamp_min = datetime.datetime.now(datetime.timezone.utc) - timedelta(seconds=int(constant.NWN_CHECKER_URL_INTERVAL_UPDATE_DB_SECONDS))
         recent_presences = repository.get_module_presences(module_info_id=module_info.id, timestamp_min=timestamp_min)
         if len(recent_presences) > 0:
             recent_presence = recent_presences[0]
@@ -53,7 +53,7 @@ def update_module_presences():
             is_db_update = True
             print(f"Presence for {module_info.name} will be updated because current players {count} is greater that previous {recent_presence.players}")
         else:
-            print(f"Presence for {module_info.name} will be not updated because current is {count} and before {(datetime.datetime.utcnow() - timestamp_min).total_seconds() / 60} minutes there was {recent_presence.players}")
+            print(f"Presence for {module_info.name} will be not updated because current is {count} and before {(datetime.datetime.now(datetime.timezone.utc) - timestamp_min).total_seconds() / 60} minutes there was {recent_presence.players}")
         if not is_db_update:
             session.commit()
             continue
@@ -62,11 +62,11 @@ def update_module_presences():
 
         if recent_presence:
             recent_presence.players = count
-            recent_presence.timestamp = datetime.datetime.utcnow()
+            recent_presence.timestamp = datetime.datetime.now(datetime.timezone.utc)
         else:
             recent_presence = ModulePresence(
                 module_info_id=module_info.id,
-                timestamp=datetime.datetime.utcnow(),
+                timestamp=datetime.datetime.now(datetime.timezone.utc),
                 players=count
             )
 
@@ -84,6 +84,6 @@ def update_module_presences():
             file.write(chart_bytes)
 
 
-@scheduler.task('interval', seconds=10)
+@context.scheduler.task('interval', seconds=10)
 def reload_properties():
     service.reload_properties()

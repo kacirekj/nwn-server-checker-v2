@@ -1,12 +1,9 @@
-import datetime
 import io
 from datetime import date
 from json import JSONEncoder
 from typing import List
-from zoneinfo import ZoneInfo
-import hashlib
 
-import constant
+import matplotlib
 import matplotlib.dates as md
 import matplotlib.pyplot as plt
 
@@ -27,10 +24,12 @@ class CustomJSONEncoder(JSONEncoder):
 
 
 def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePresence]):
+    matplotlib.use('Agg')  # Use non-GUI backend
+
     dates = [module_presence.timestamp for module_presence in module_presences]
     players_count = [module_presence.players for module_presence in module_presences]
 
-    fig = plt.figure(figsize=(19.2, 10.8*0.75))
+    plt.figure(figsize=(19.2, 10.8*0.75))
     # plt.suptitle(module_info.name, fontsize=36)
     plt.xlabel("Date time (UTC)", fontsize=28)
     plt.ylabel("Players online", fontsize=28)
