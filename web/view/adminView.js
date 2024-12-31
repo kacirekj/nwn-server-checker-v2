@@ -66,7 +66,7 @@ const template = `
                                 {{key}}
                             </td>
                             <td>
-                                <input v-model="moduleInfo[key]" v-on:input="$set(moduleInfo, '._changed', true)">          
+                                <input v-model="moduleInfo[key]" v-on:input="$set(moduleInfo, '_changed', true)">          
                             </td>
                         </tr>    
                     </tbody>
@@ -124,7 +124,8 @@ export default {
             const tmp = {
                 name: '',
                 ip: '',
-                port: ''
+                port: '',
+                _changed: true
             }
             this.moduleInfos = [tmp, ...this.moduleInfos]
         },

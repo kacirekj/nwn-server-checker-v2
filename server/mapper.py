@@ -15,6 +15,8 @@ def to_to_module_info(module_info: dict):
         name=module_info.get('name'),
         ip=module_info.get('ip'),
         port=module_info.get('port'),
+        players=module_info.get('players'),
+        updated=module_info.get('updated'),
     )
 
 

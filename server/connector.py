@@ -1,6 +1,8 @@
-import constant
-import requests
 import re
+
+import requests
+
+import constant
 
 
 def get_nwn_server_players_count(ip, port):

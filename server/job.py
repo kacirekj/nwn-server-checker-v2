@@ -1,13 +1,13 @@
 import datetime
-import context
-import service
 from datetime import timedelta
 
-import repository
 import connector
-import util
 import constant
-from model import ModulePresence, ModuleInfo
+import context
+import repository
+import service
+import util
+from model import ModulePresence
 
 
 @context.scheduler.task('cron', minute=constant.NWN_CHECKER_URL_INTERVAL_CRON_PER_HOUR)

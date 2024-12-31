@@ -12,7 +12,23 @@ const template = `
             </p>
             <div v-for="m in findModuleInfos">
                 <h3>{{m.name}}</h3>
-                <p>IP: {{m.ip}}:{{m.port}}</p>
+                
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>IP</td>
+                            <td>{{m.ip}}:{{m.port}}</td>
+                        </tr>
+                        <tr>
+                            <td>Players online</td>
+                            <td>{{m.players}}</td>
+                        </tr>
+                        <tr>
+                            <td>Last update [UTC]</td>
+                            <td>{{m.updated}}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <figure>
                     <img :src="'web/asset/' + m.name + '-chart.png'" style="max-width: 100%; max-height: 100%;" alt="Chart not found.">
                 </figure>

@@ -1,12 +1,10 @@
 from typing import List
 
-from sqlalchemy import delete, select, update
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 import context
-from model import ModulePresence
-
-from model import ModuleInfo, Property
+from model import ModuleInfo, Property, ModulePresence
 
 
 # Module info

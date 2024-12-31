@@ -1,15 +1,10 @@
-import datetime
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from model import Base, ModuleInfo, Property
 import constant
+from model import Base, ModuleInfo, Property
 
-id = 0
-date = datetime.date.today()
-
-sqlite='sqlite:///../data/sqlite.db'
+sqlite = 'sqlite:///../data/sqlite.db'
 
 
 def init():

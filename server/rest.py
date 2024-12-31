@@ -1,11 +1,13 @@
-import context
 from dataclasses import asdict
+import os, signal
 
+from flask import request
+
+import context
+import mapper
 import repository
 import validator
-from flask import request
-import mapper
-
+import service
 
 # Module infos
 
@@ -69,4 +71,6 @@ def upsert_properties():
     validator.validate_password(request)
     properties = mapper.to_properties(request.json)
     results = repository.upsert_properties(properties)
+    context.scoped_factory().commit()
+    os.kill(os.getpid(), signal.SIGINT)
     return [asdict(result) for result in results]

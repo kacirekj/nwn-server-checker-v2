@@ -26,9 +26,7 @@ const methods = {
             url: '/api/module-infos',
             params: {
                 ids: ids,
-                params: {
-                    password: password
-                }
+                password: password
             }
         })
         return response.data

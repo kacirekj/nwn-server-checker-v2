@@ -1,42 +1,33 @@
-# Imports
 import json
-import logging
-from http.client import HTTPException
 import os
 
+from flask import Flask, send_from_directory, request
 from flask_apscheduler import APScheduler
-from flask import Flask, send_from_directory, request, redirect, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-# Component imports
-
+import constant
 import context
-import initdb
 import util
-from constant import STATIC_FILE_SUFFIXES, WEB_DIR, DATA_DIR
-from util import CustomJSONEncoder
 
 # Init Flask
 
 os.environ['TZ'] = 'Europe/Prague'
 context.app = Flask(__name__, )
-context.app.json_encoder = CustomJSONEncoder
+context.app.json_encoder = util.CustomJSONEncoder
 # context.app.config['JSON_SORT_KEYS'] = False
 # context.app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
-# Init SqlAclhemy
 
-context.engine = create_engine(f"sqlite:///{DATA_DIR}/sqlite.db")
+# Init Sql Alchemy
+
+context.engine = create_engine(f"sqlite:///{constant.DATA_DIR}/sqlite.db")
 context.session_factory = sessionmaker(bind=context.engine)
 context.scoped_factory = scoped_session(context.session_factory)
 
-import repository
-import rest
-import constant
-import service
-
 # Init Scheduler
+
+import service
 
 service.reload_properties()
 context.scheduler = APScheduler()
@@ -44,24 +35,25 @@ context.scheduler.init_app(context.app)
 context.scheduler.start()
 
 import job
+import rest
 
 
 @context.app.route('/')
 def get_index():
-    return send_from_directory(WEB_DIR, 'index.html')
+    return send_from_directory(constant.WEB_DIR, 'index.html')
 
 
 @context.app.route('/<path:text>')
 def get_index_with(text: str):
     if text == '/':
-        return send_from_directory(WEB_DIR, 'index.html')
+        return send_from_directory(constant.WEB_DIR, 'index.html')
     elif text.startswith('/api'):
         pass
-    elif text.endswith(STATIC_FILE_SUFFIXES):
+    elif text.endswith(constant.STATIC_FILE_SUFFIXES):
         web_file = text.split('web/')[1]
-        return send_from_directory(WEB_DIR, web_file)
+        return send_from_directory(constant.WEB_DIR, web_file)
     else:
-        return send_from_directory(WEB_DIR, 'index.html')  # Should have 404 not found
+        return send_from_directory(constant.WEB_DIR, 'index.html')  # Should have 404 not found
 
 
 @context.app.teardown_request
@@ -89,8 +81,8 @@ def handle_http_exception(e):
     return json.dumps(response), e.code
 
 
-application = context.app # gunicorn needs "application" variable
-
+application = context.app  # gunicorn needs "application" variable
 
 if __name__ == '__main__':
     context.app.run(debug=True, host='0.0.0.0', port=8080, use_reloader=False)
+    context.app.shut

@@ -11,5 +11,5 @@ target_folder="/srv/app"
 
 
 echo "Update remote folder"
-rsync -arv -v -e "ssh -p 12339" --exclude .git ../$project_name $remote_server:$target_folder
+rsync -arv -v -e "ssh -p 12339" --exclude .git --exclude data ../$project_name $remote_server:$target_folder
 
