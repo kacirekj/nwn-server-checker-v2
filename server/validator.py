@@ -28,12 +28,12 @@ def validate_captha(request):
     md5 = hashlib.md5(captcha_gues.encode('utf-8')).hexdigest()
 
     is_reused_captcha = captcha_hash in context.used_captcha_hashes
+    context.used_captcha_hashes.add(captcha_hash) # prevent reuse of same captchas
     if is_reused_captcha:
         abort(401, "This captcha has been already used and not guessed correctly.")
 
     is_captcha_match = md5 == captcha_hash
     if not is_captcha_match:
-        context.used_captcha_hashes.add(captcha_hash)
         abort(401, "Incorrect captcha. Please try again.")
 
 
