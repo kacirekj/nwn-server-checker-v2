@@ -31,6 +31,11 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
     dates = [module_presence.timestamp for module_presence in module_presences]
     players_count = [module_presence.players for module_presence in module_presences]
 
+    # Add same starting date so charts are comparable
+
+    dates.insert(0, datetime(2024,12,29,12,12,12,12))
+    players_count.insert(0, 0)
+
     plt.figure(figsize=(19.2, 10.8*0.75))
     # plt.suptitle(module_info.name, fontsize=36)
     plt.xlabel("Date time (UTC)", fontsize=28)

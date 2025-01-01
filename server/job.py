@@ -59,7 +59,7 @@ def update_module_presences():
             print(f"Presence for {module_info.name} will be updated because current players {count} is greater that previous {recent_presence.players}")
         else:
             is_db_update = False
-            print(f"Presence for {module_info.name} will be not updated because current is {count} and before {(datetime.datetime.now(datetime.timezone.utc) - recent_presence.timestamp).total_seconds() / 60} minutes there was {recent_presence.players}")
+            print(f"Presence for {module_info.name} will be not updated because current is {count} and before {(datetime.datetime.now(datetime.timezone.utc) - recent_presence.timestamp.replace(tzinfo=datetime.timezone.utc)).total_seconds() / 60} minutes there was {recent_presence.players}")
         if not is_db_update:
             session.commit()
             continue
