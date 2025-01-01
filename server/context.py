@@ -1,0 +1,1 @@
+used_captcha_hashes = set()

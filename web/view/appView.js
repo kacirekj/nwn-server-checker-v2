@@ -5,8 +5,9 @@ const template = `
             <nav class="noprint sticky">
                 <ul>
                     <li><router-link to="/"><img style="height: 2em;" src="web/asset/favicon.png"></router-link></li>
-                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/">Home</router-link></li>
-                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/admin'}" to="/admin">Admin</router-link></li>
+                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/">Domů</router-link></li>
+                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/discussion'}" to="/discussion">Kniha návštěv</router-link></li>
+                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/admin'}" to="/admin">Administrace</router-link></li>
                 </ul>
             </nav>
         </header>

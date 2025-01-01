@@ -570,6 +570,11 @@ p > select {
     flex: 1 1 100%;
 }
 
+.row .col-1 {
+    flex: 0 0 7.33%;
+    max-width: 7.33%;
+}
+
 .row .col-2 {
     flex: 0 0 16.66%;
     max-width: 16.66%;

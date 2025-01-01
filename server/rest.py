@@ -1,13 +1,55 @@
+import os
+import signal
 from dataclasses import asdict
-import os, signal
 
-from flask import request
+from flask import request, send_file
 
 import context
 import mapper
 import repository
 import validator
-import service
+
+
+# Captcha
+
+
+@context.app.get('/api/captcha')
+def get_captcha():
+    data, md5hash = validator.create_captcha()
+    return send_file(
+        data,
+        download_name=f'{md5hash}.png',
+        mimetype='image/png',
+    )
+
+
+# Discussion
+
+
+@context.app.get('/api/discussion-items')
+def get_discussion_items():
+    results = repository.get_discussion_items()
+    return [asdict(result) for result in results]
+
+
+@context.app.post('/api/discussion-items')
+def create_discussion_item():
+    validator.validate_captha(request)
+    discussion_item = mapper.to_discussion_item(request.json)
+    ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
+    user_agent = request.headers.get('User-Agent')
+    discussion_item.ip = request.ip = f'{ip_address}, {user_agent}'
+    result = repository.upsert_discussion_items([discussion_item])[0]
+    return asdict(result)
+
+
+@context.app.delete('/api/discussion-items')
+def delete_discussion_items():
+    validator.validate_password(request)
+    ids = request.args.getlist('ids[]')
+    repository.delete_discussion_items(ids)
+    return ""
+
 
 # Module infos
 
@@ -46,14 +88,6 @@ def get_module_presences():
     module_info_id = request.args.get('module_info_id')
     results = repository.get_module_presences(ids, module_info_id)
     return [asdict(result) for result in results]
-
-
-# @app.post('/api/module-presences')
-# def upsert_module_presences():
-#     ids = request.args.getlist('ids[]')
-#     module_info_id = request.args.get('module_info_id')
-#     results = repository.get_module_presences(ids, module_info_id)
-#     return [asdict(result) for result in results]
 
 
 # Property

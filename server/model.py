@@ -34,3 +34,13 @@ class Property(Base):
     __tablename__ = 'property_table'
     key: Mapped[str] = mapped_column(primary_key=True)
     value: Mapped[str] = mapped_column(nullable=True)
+
+
+@dataclass
+class DiscussionItem(Base):
+    __tablename__ = 'discussion_item_table'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    author: Mapped[str] = mapped_column(nullable=True)
+    created: Mapped[str] = mapped_column(nullable=True)
+    text: Mapped[str] = mapped_column(nullable=True)
+    ip: Mapped[str] = mapped_column(nullable=True)

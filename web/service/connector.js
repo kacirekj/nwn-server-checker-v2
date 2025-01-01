@@ -1,4 +1,37 @@
 const methods = {
+    async getDiscussionItems() {
+        this.$logger.log()
+        let response = await this.call({
+            method: 'GET',
+            url: '/api/discussion-items'
+        })
+        return response.data
+    },
+    async createDiscussionItem(discussionItem, captchaHash, captchaGues) {
+        this.$logger.log()
+        let response = await this.call({
+            method: 'POST',
+            url: '/api/discussion-items',
+            data: discussionItem,
+            params: {
+                captchaHash: captchaHash,
+                captchaGues: captchaGues,
+            }
+        })
+        return response.data
+    },
+    async deleteDiscussionItems(ids, password) {
+        this.$logger.log(ids)
+        let response = await this.call({
+            method: 'DELETE',
+            url: '/api/discussion-items',
+            params: {
+                ids: ids,
+                password: password
+            }
+        })
+        return response
+    },
     async getModuleInfos() {
         this.$logger.log()
         let response = await this.call({
@@ -61,7 +94,7 @@ const methods = {
             let msg = e.response.data.error + ": " + e.response.data.message;
             window.alert(msg);
             console.log(e)
-            return null;
+            throw e
         }
     }
 }

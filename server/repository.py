@@ -4,7 +4,30 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 import context
-from model import ModuleInfo, Property, ModulePresence
+from model import ModuleInfo, Property, ModulePresence, DiscussionItem
+
+
+# Discussion item
+
+
+def get_discussion_items() -> List[DiscussionItem]:
+    session = context.scoped_factory()
+    q = select(DiscussionItem).order_by(DiscussionItem.created.desc())
+    return session.scalars(q).all()
+
+
+def upsert_discussion_items(discussion_items: List[DiscussionItem]) -> List[DiscussionItem]:
+    session: Session = context.scoped_factory()
+    fresh_items = []
+    for items in discussion_items:
+        fresh_item = session.merge(items)
+        fresh_items.append(fresh_item)
+    session.flush()
+    return fresh_items
+
+
+def delete_discussion_items(ids):
+    context.scoped_factory().query(DiscussionItem).where(DiscussionItem.id.in_(ids)).delete()
 
 
 # Module info

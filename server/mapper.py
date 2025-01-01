@@ -1,6 +1,22 @@
 from typing import List
 
-from model import ModuleInfo, Property
+from model import ModuleInfo, Property, DiscussionItem
+
+
+def to_discussion_items(discussion_items: List[dict]):
+    return [to_discussion_item(discussion_item) for discussion_item in discussion_items]
+
+
+def to_discussion_item(discussion_item: dict):
+    if discussion_item is None:
+        return None
+    return DiscussionItem(
+        id=discussion_item.get('id'),
+        author=discussion_item.get('author'),
+        created=discussion_item.get('created'),
+        text=discussion_item.get('text'),
+        ip=discussion_item.get('ip'),
+    )
 
 
 def to_module_infos(module_infos: List[dict]):

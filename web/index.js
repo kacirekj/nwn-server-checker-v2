@@ -17,6 +17,7 @@ import util from './service/util.js'
 
 import appView from './view/appView.js'
 import adminView from './view/adminView.js'
+import discussionView from "./view/discussionView.js";
 import homeView from './view/homeView.js'
 
 /**
@@ -40,6 +41,7 @@ Vue.component('appView', appView)
 const routes = [
     {path: '/', component: homeView},
     {path: '/admin', component: adminView},
+    {path: '/discussion', component: discussionView}
 ]
 
 // Global mixin

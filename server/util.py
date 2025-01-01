@@ -1,6 +1,8 @@
 import io
+import string
 from datetime import date
 from json import JSONEncoder
+import random
 from typing import List
 
 import matplotlib
@@ -45,3 +47,7 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
     plt.savefig(img_buf, format='png', transparent=True)
 
     return img_buf.getvalue()
+
+
+def generate_random_lowercase_string(length):
+    return ''.join(random.choices(string.ascii_uppercase, k=length))

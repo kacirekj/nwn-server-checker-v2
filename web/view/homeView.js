@@ -3,10 +3,10 @@
 const template = `
     <div style="display: contents">
         <header class="subheader">
-            <h1>Neverwinter Nights - Presence checker</h1>
+            <h1>Neverwinter Nights - Statistika návštěvnosti</h1>
         </header>
         <main>
-            <h2>Persistence modules</h2>
+            <h2>Persistentní moduly</h2>
             <p>
                 <input type="text" v-model="search" placeholder="Search by name">
             </p>
@@ -20,12 +20,12 @@ const template = `
                             <td>{{m.ip}}:{{m.port}}</td>
                         </tr>
                         <tr>
-                            <td>Players online</td>
+                            <td>Hráčů online</td>
                             <td>{{m.players}}</td>
                         </tr>
                         <tr>
-                            <td>Last update [UTC]</td>
-                            <td>{{m.updated}}</td>
+                            <td>Poslední aktualizace</td>
+                            <td>{{$util.isoDateToReadable(m.updated)}}</td>
                         </tr>
                     </tbody>
                 </table>

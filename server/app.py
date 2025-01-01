@@ -1,5 +1,6 @@
 import json
 import os
+from http.client import responses
 
 from flask import Flask, send_from_directory, request
 from flask_apscheduler import APScheduler
@@ -73,12 +74,19 @@ def teardown_request(exception):
 
 @context.app.errorhandler(Exception)
 def handle_http_exception(e):
-    response = {
-        "error": e.name,
-        "message": e.description,
-        "status_code": e.code
-    }
-    return json.dumps(response), e.code
+    if not hasattr(e, 'code'):
+        response = {
+            "error": 'Unknown error',
+            "message": str(e),
+            "status_code": 500
+        }
+    else:
+        response = {
+            "error": e.name,
+            "message": e.description,
+            "status_code": e.code
+        }
+    return json.dumps(response), response['status_code']
 
 
 application = context.app  # gunicorn needs "application" variable
