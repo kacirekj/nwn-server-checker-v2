@@ -1,6 +1,6 @@
 import io
 import string
-from datetime import date
+from datetime import date, datetime
 from json import JSONEncoder
 import random
 from typing import List
@@ -15,7 +15,7 @@ from model import ModulePresence, ModuleInfo
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
         try:
-            if isinstance(obj, date):
+            if isinstance(obj, date) or isinstance(obj, datetime):
                 return obj.isoformat()
             iterable = iter(obj)
         except TypeError:

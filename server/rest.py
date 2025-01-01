@@ -1,3 +1,4 @@
+import json
 import os
 import signal
 from dataclasses import asdict
@@ -59,7 +60,7 @@ def get_module_infos():
     ids = request.args.getlist('ids[]')
     name = request.args.get('name')
     results = repository.get_module_infos(ids, name)
-    return [asdict(result) for result in results]
+    return json.dumps([asdict(result) for result in results], default=str)
 
 
 @context.app.post('/api/module-infos')

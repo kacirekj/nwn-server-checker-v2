@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from model import ModuleInfo, Property, DiscussionItem
@@ -32,7 +33,7 @@ def to_to_module_info(module_info: dict):
         ip=module_info.get('ip'),
         port=module_info.get('port'),
         players=module_info.get('players'),
-        updated=module_info.get('updated'),
+        updated=datetime.fromisoformat(module_info.get('updated')),
     )
 
 

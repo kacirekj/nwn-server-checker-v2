@@ -16,6 +16,7 @@ import util
 os.environ['TZ'] = 'Europe/Prague'
 context.app = Flask(__name__, )
 context.app.json_encoder = util.CustomJSONEncoder
+
 # context.app.config['JSON_SORT_KEYS'] = False
 # context.app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
