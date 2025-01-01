@@ -69,7 +69,7 @@ def get_module_presences(ids=None, module_info_id=None, timestamp_min=None) -> L
         q = q.where(ModulePresence.id.in_(ids))
     if timestamp_min:
         q = q.where(ModulePresence.timestamp > timestamp_min)
-    q.order_by(ModulePresence.timestamp.asc())
+    q = q.order_by(ModulePresence.timestamp.asc())
     return session.scalars(q).all()
 
 

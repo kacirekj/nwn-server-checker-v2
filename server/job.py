@@ -36,6 +36,7 @@ def update_module_presences():
         module_info.updated = datetime.datetime.now(datetime.timezone.utc)
 
         repository.upsert_module_infos([module_info])
+        session.commit()
 
         print(f"Updated {module_info.name} players count to {module_info.players}.")
 
@@ -75,7 +76,7 @@ def update_module_presences():
                 players=count
             )
 
-        repository.upsert_properties([recent_presence])
+        repository.upsert_module_presences([recent_presence])
 
         print(f'Updated presence: {recent_presence}')
         session.commit()
