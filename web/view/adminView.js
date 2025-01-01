@@ -125,6 +125,8 @@ export default {
                 name: '',
                 ip: '',
                 port: '',
+                updated: '',
+                players: 0,
                 _changed: true
             }
             this.moduleInfos = [tmp, ...this.moduleInfos]
