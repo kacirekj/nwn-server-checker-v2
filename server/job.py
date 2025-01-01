@@ -1,4 +1,5 @@
 import datetime
+import statistics
 from datetime import timedelta
 
 import connector
@@ -21,6 +22,10 @@ def update_module_presences():
             count = connector.get_nwn_server_players_count(module_info.ip, module_info.port)
         except Exception as e:
             print(f"Can't parse response for {module_info}")
+            continue
+
+        if count > 120:
+            print(f"There is nonsense presence {count} for {module_info.name}.")
             continue
 
         # Update Module info
@@ -87,3 +92,27 @@ def update_module_presences():
 @context.scheduler.task('interval', seconds=10)
 def reload_properties():
     service.reload_properties()
+
+
+@context.scheduler.task('cron', minute="*")
+def filter_nonsense_values():
+    print("Start filter nonsense values")
+    module_infos = repository.get_module_infos()
+    for module_info in module_infos:
+        presences = repository.get_module_presences(module_info_id=module_info.id)
+        for presence in presences:
+            if presence.players > 64:
+                session = context.scoped_factory()
+                print(f'Removing nonsense presence: {presence} for {module_info.name}')
+                repository.delete_module_presence([presence.id])
+                session.commit()
+
+
+
+
+
+
+
+
+
+

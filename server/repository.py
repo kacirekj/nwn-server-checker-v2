@@ -83,6 +83,10 @@ def upsert_module_presences(module_presences: List[ModulePresence]):
     return fresh_module_presences
 
 
+def delete_module_presence(ids):
+    context.scoped_factory().query(ModulePresence).where(ModulePresence.id.in_(ids)).delete()
+
+
 # Property
 
 

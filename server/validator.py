@@ -25,23 +25,28 @@ def validate_captha(request):
     if not captcha_hash or not captcha_gues:
         abort(401, "Missing captcha.")
 
-    md5 = hashlib.md5(captcha_gues.encode('utf-8')).hexdigest()
+    captcha_gues_and_seed = captcha_gues + constant.CAPTCHA_SEED
+    captcha_gues_and_seed = captcha_gues_and_seed.encode('utf-8')
+    captcha_gues_and_seed_md5 = hashlib.md5(captcha_gues_and_seed).hexdigest()
 
     is_reused_captcha = captcha_hash in context.used_captcha_hashes
     context.used_captcha_hashes.add(captcha_hash) # prevent reuse of same captchas
     if is_reused_captcha:
         abort(401, "This captcha has been already used and not guessed correctly.")
 
-    is_captcha_match = md5 == captcha_hash
+    is_captcha_match = captcha_gues_and_seed_md5 == captcha_hash
     if not is_captcha_match:
         abort(401, "Incorrect captcha. Please try again.")
 
 
 def create_captcha():
     while True:
-        rand_int = util.generate_random_lowercase_string(3)
-        md5 = hashlib.md5(str(rand_int).encode('utf-8')).hexdigest()
-        if md5 not in context.used_captcha_hashes:
+        rand_string = util.generate_random_lowercase_string(3)
+        string_and_seed = rand_string + constant.CAPTCHA_SEED
+        string_and_seed_md5 = hashlib.md5(str(string_and_seed).encode('utf-8')).hexdigest()
+        if len(context.used_captcha_hashes) > 5000:
+            context.used_captcha_hashes.clear()
+        if string_and_seed_md5 not in context.used_captcha_hashes:
             break
-    data = ImageCaptcha().generate(str(rand_int))
-    return data, md5
+    data = ImageCaptcha().generate(str(rand_string))
+    return data, string_and_seed_md5
