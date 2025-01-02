@@ -84,6 +84,22 @@ const methods = {
         })
         return response.data
     },
+    async incrementWebVisit() {
+        this.$logger.log()
+        let response = await this.call({
+            method: 'POST',
+            url: '/api/web-visits'
+        })
+        return response.data
+    },
+    async getWebVisits() {
+        this.$logger.log()
+        let response = await this.call({
+            method: 'GET',
+            url: '/api/web-visits',
+        })
+        return response.data
+    },
     async call(params) {
         try {
             return await axios({

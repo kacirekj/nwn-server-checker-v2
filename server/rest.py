@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 import signal
@@ -109,3 +110,32 @@ def upsert_properties():
     context.scoped_factory().commit()
     os.kill(os.getpid(), signal.SIGINT)
     return [asdict(result) for result in results]
+
+
+# Web Visit
+
+
+@context.app.post('/api/web-visits')
+def increment():
+    ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
+    user_agent = request.headers.get('User-Agent')
+    ip_browser = f'{ip_address}, {user_agent}'
+    is_unique_visit_per_day = ip_browser not in context.ip_browser_web_visitors
+    web_visit = repository.get_web_visits([0])[0]
+    if is_unique_visit_per_day:
+        context.ip_browser_web_visitors.add(ip_browser)
+        web_visit.unique24hVisitCount += 1
+        web_visit.visitCount += 1
+        print(f"Unique web visit from: {ip_browser}")
+    else:
+        web_visit.visitCount += 1
+        print(f"Repeated web visit from: {ip_browser}")
+    web_visit.updated = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    web_visit = repository.upsert_web_visits([web_visit])[0]
+    return asdict(web_visit)
+
+
+@context.app.get('/api/web-visits')
+def get_web_visits():
+    web_visit = repository.get_web_visits([0])[0]
+    return asdict(web_visit)

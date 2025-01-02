@@ -24,7 +24,7 @@ const template = `
                             <td>{{m.players}}</td>
                         </tr>
                         <tr>
-                            <td>Poslední aktualizace</td>
+                            <td>Poslední aktualizace (UTC)</td>
                             <td>{{$util.isoDateToReadable(m.updated)}}</td>
                         </tr>
                     </tbody>

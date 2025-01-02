@@ -44,3 +44,12 @@ class DiscussionItem(Base):
     created: Mapped[str] = mapped_column(nullable=True)
     text: Mapped[str] = mapped_column(nullable=True)
     ip: Mapped[str] = mapped_column(nullable=True)
+
+
+@dataclass
+class WebVisit(Base):
+    __tablename__ = 'web_visit_table'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    updated: Mapped[str] = mapped_column(nullable=True)
+    visitCount: Mapped[int] = mapped_column(nullable=True)
+    unique24hVisitCount: Mapped[int] = mapped_column(nullable=True)

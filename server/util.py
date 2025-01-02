@@ -56,3 +56,9 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
 
 def generate_random_lowercase_string(length):
     return ''.join(random.choices(string.ascii_uppercase, k=length))
+
+
+def increment_page_visits_route_if_unique(request, respomse):
+    if not request.cookies.get('user_id'):
+        response.set_cookie('user_id', 'unique_user_id_123')  # Nastavíme unikátní ID pro uživatele
+    return response

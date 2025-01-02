@@ -95,9 +95,10 @@ def reload_properties():
     service.reload_properties()
 
 
-
-
-
+@context.scheduler.task('cron', hour="0")
+def clear_day_web_visits():
+    print(f"Clear of day web visitors:\n{context.ip_browser_web_visitors}")
+    context.ip_browser_web_visitors.clear()
 
 
 

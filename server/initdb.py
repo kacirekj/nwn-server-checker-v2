@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 import constant
-from model import Base, ModuleInfo, Property, DiscussionItem
+from model import Base, ModuleInfo, Property, DiscussionItem, WebVisit
 
 sqlite = 'sqlite:///../data/sqlite.db'
 
@@ -33,6 +33,7 @@ def init():
         # session.merge(Property(key="NWN_CHECKER_URL_INTERVAL_UPDATE_DB_SECONDS", value=constant.NWN_CHECKER_URL_INTERVAL_UPDATE_DB_SECONDS))
 
         session.merge(DiscussionItem(id=0, author="Admin", created=datetime.datetime.now(datetime.timezone.utc), text="Ahojte, nechte zde nějaký vzkaz :-)"))
+        session.merge(WebVisit(id=0, updated=datetime.datetime.now(datetime.timezone.utc), visitCount=0, unique24hVisitCount=0))
 
         session.commit()
 

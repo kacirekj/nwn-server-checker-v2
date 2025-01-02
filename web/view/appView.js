@@ -17,7 +17,7 @@ const template = `
                 </router-view>
         </keep-alive>
         <footer>
-            <p>Copyright (c) Jiří Kačírek 2024</p>
+            <p>Copyright (c) Jiří Kačírek 2024, Total visits: {{webVisit.visitCount}}, Unique visits: {{webVisit.unique24hVisitCount}}</p>
         </footer>
 
     </div>
@@ -27,6 +27,7 @@ export default {
     template,
     data() {
         return {
+            webVisit: {},
             defaultTheme: 'light',
             theme: null,
             activeButtonIdx: null,
@@ -44,6 +45,7 @@ export default {
 
     },
     async mounted() {
+        this.webVisit = await this.$connector.incrementWebVisit();
     },
     created() {
         const theme = sessionStorage.getItem("theme")

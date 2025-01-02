@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 import context
-from model import ModuleInfo, Property, ModulePresence, DiscussionItem
+from model import ModuleInfo, Property, ModulePresence, DiscussionItem, WebVisit
 
 
 # Discussion item
@@ -106,4 +106,20 @@ def upsert_properties(properties: List[Property]):
     return properties
 
 
+# Web Visit
 
+
+def get_web_visits(ids) -> List[WebVisit]:
+    session = context.scoped_factory()
+    q = select(WebVisit).where(WebVisit.id.in_(ids)).order_by(WebVisit.id.asc())
+    return session.scalars(q).all()
+
+
+def upsert_web_visits(web_visits: List[WebVisit]) -> List[WebVisit]:
+    session: Session = context.scoped_factory()
+    fresh_items = []
+    for items in web_visits:
+        fresh_item = session.merge(items)
+        fresh_items.append(fresh_item)
+    session.flush()
+    return fresh_items
