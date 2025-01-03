@@ -24,7 +24,7 @@ def update_module_presences():
             print(f"Can't parse response for {module_info}")
             continue
 
-        if module_info.players > 2 and count - module_info.players > 40:
+        if module_info.players >= 0 and count - module_info.players > 40:
             print(f"There is nonsense presence {count} while previous was {module_info.players} for {module_info.name}.")
             continue
 
