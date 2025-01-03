@@ -1,4 +1,5 @@
 import datetime
+import pprint
 import statistics
 from datetime import timedelta
 
@@ -97,7 +98,8 @@ def reload_properties():
 
 @context.scheduler.task('cron', hour="0")
 def clear_day_web_visits():
-    print(f"Clear of day web visitors:\n{context.ip_browser_web_visitors}")
+    pprint.pp(f"Clear of day web visitors, total unique today: {len(context.ip_browser_web_visitors)}")
+    pprint.pp(f"{context.ip_browser_web_visitors}")
     context.ip_browser_web_visitors.clear()
 
 
