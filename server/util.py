@@ -50,7 +50,7 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
 
     img_buf = io.BytesIO()
     plt.savefig(img_buf, format='png', transparent=True)
-
+    plt.close()
     return img_buf.getvalue()
 
 

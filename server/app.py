@@ -10,23 +10,27 @@ import constant
 import context
 import util
 
-# Init Flask
+
+# Configure Flask
+
 
 os.environ['TZ'] = 'Europe/Prague'
 context.app = Flask(__name__, )
 context.app.json_encoder = util.CustomJSONEncoder
-
 # context.app.config['JSON_SORT_KEYS'] = False
 # context.app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 
-# Init Sql Alchemy
+# Configure Sql Alchemy
+
 
 context.engine = create_engine(f"sqlite:///{constant.DATA_DIR}/sqlite.db")
 context.session_factory = sessionmaker(bind=context.engine)
 context.scoped_factory = scoped_session(context.session_factory)
 
-# Init Scheduler
+
+# Configure Scheduler
+
 
 import service
 
@@ -92,5 +96,5 @@ def handle_http_exception(e):
 application = context.app  # gunicorn needs "application" variable
 
 if __name__ == '__main__':
-    context.app.run(debug=True, host='0.0.0.0', port=8080, use_reloader=False)
+    context.app.run(debug=False, host='0.0.0.0', port=8080, use_reloader=False)
     context.app.shut
