@@ -3,10 +3,10 @@
 const template = `
     <div style="display: contents">
         <header class="subheader">
-            <h1>Neverwinter Nights - Statistika návštěvnosti</h1>
+            <h1>Neverwinter Nights</h1>
         </header>
         <main>
-            <h2>Persistentní moduly</h2>
+            <h2>Statistika návštěvnosti modulů</h2>
             <p>
                 <input type="text" v-model="search" placeholder="Search by name">
             </p>

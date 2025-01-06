@@ -3,7 +3,7 @@
 const template = `
     <div style="display: contents">
         <header class="subheader">
-            <h1>Kniha návštěv</h1>
+            <h1>Diskuze</h1>
         </header>
         <main>
             <h2>Příspěvky</h2>
@@ -116,5 +116,6 @@ export default {
     async mounted() {
         this.discussionItems = await this.$connector.getDiscussionItems();
         await this.loadCaptcha();
+        localStorage.setItem("recentDiscussionOpenTimestamp", new Date().toISOString())
     },
 }
