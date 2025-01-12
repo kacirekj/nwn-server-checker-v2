@@ -5,9 +5,10 @@ const template = `
             <nav class="noprint sticky">
                 <ul>
                     <li><router-link to="/"><img style="height: 2em;" src="web/asset/favicon.png"></router-link></li>
-                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/">Domů</router-link></li>
+                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/">Statistika</router-link></li>
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/discussion'}" to="/discussion">Diskuze <sup v-if="findRecentDiscussionItemsCount > 0" class="notification">{{findRecentDiscussionItemsCount}}</sup></router-link></li>
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/admin'}" to="/admin">Administrace</router-link></li>
+                    <li><a class="nav-button" href="https://raw.githack.com/kacirekj/demona-kalkulacka/master/dnd_kalkulacka_zraneni.html">Kalkulačka D&D</link></li>
                 </ul>
             </nav>
         </header>
