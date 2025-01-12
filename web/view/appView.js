@@ -15,7 +15,7 @@ const template = `
             <router-view>
                 </router-view>
         <footer>
-            <p>Copyright (c) Jiří Kačírek 2024, Total visits: {{webVisit.visitCount}}, Unique visits: {{webVisit.unique24hVisitCount}}</p>
+            <p>Author: <a :href="'mailto:' + 'kacirek.j' + '@' + 'gmail.com'">Jiří Kačírek</a> 2024, Total visits: {{webVisit.visitCount}}, Unique visits: {{webVisit.unique24hVisitCount}}</p>
         </footer>
 
     </div>
