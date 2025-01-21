@@ -34,6 +34,7 @@ Vue.prototype.$filter = filter
 Vue.prototype.$logger = logger
 Vue.prototype.$model = model
 Vue.prototype.$util = util
+Vue.prototype.$moment = moment
 
 // Views
 

@@ -24,8 +24,8 @@ const template = `
                             <td>{{m.players}}</td>
                         </tr>
                         <tr>
-                            <td>Poslední aktualizace (UTC)</td>
-                            <td>{{$util.isoDateToReadable(m.updated)}}</td>
+                            <td>Poslední aktualizace (CET)</td>
+                            <td>{{ $moment(m.updated + "Z").tz('Europe/Berlin').format('DD/MM/YYYY, HH:mm:ss') }}</td>
                         </tr>
                     </tbody>
                 </table>
