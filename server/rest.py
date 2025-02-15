@@ -10,6 +10,7 @@ import context
 import mapper
 import repository
 import validator
+import job
 
 
 # Captcha
@@ -139,3 +140,11 @@ def increment():
 def get_web_visits():
     web_visit = repository.get_web_visits([0])[0]
     return asdict(web_visit)
+
+
+@context.app.post('/api/re-render')
+def re_render():
+    print("Re-render trigered")
+    job.update_module_presences()
+    return ""
+

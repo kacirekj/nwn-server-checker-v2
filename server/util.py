@@ -31,10 +31,28 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
     dates = [module_presence.timestamp for module_presence in module_presences]
     players_count = [module_presence.players for module_presence in module_presences]
 
+    # Calculate averages per day
+
+    players_count_date_map = {}
+
+    for p in module_presences:
+        date = p.timestamp.date()
+        if date not in players_count_date_map:
+            players_count_date_map[date] = []
+        players_count_date_map[date].append(p.players)
+
+    avg_players_counts = []
+
+    for date, items in players_count_date_map.items():
+        avg = sum(items) / len(items)
+        for item in items:
+            avg_players_counts.append(avg)
+
     # Add same starting date so charts are comparable
 
     dates.insert(0, datetime(2024,12,29,12,12,12,12))
     players_count.insert(0, 0)
+    avg_players_counts.insert(0, 0)
 
     plt.figure(figsize=(19.2, 10.8*0.75))
     # plt.suptitle(module_info.name, fontsize=36)
@@ -46,7 +64,8 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
     plt.subplots_adjust(bottom=0.25)
     plt.gca().xaxis.set_major_formatter(md.DateFormatter('%Y-%m-%d %H:%M'))
     plt.tight_layout()
-    plt.plot(dates, players_count, linewidth=0.8)
+    plt.plot(dates, players_count, label="Ab", linewidth=0.5)
+    plt.plot(dates, avg_players_counts, label="CD", linewidth=1.5)
 
     img_buf = io.BytesIO()
     plt.savefig(img_buf, format='png', transparent=True)

@@ -72,6 +72,9 @@ const template = `
                     </tbody>
                 </table>
              </div>
+             <div>
+                <input type="button" v-on:click="$connector.postReRender()">
+             </div>
         </main>
     </div>
 `

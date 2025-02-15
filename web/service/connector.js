@@ -100,6 +100,14 @@ const methods = {
         })
         return response.data
     },
+    async postReRender() {
+        this.$logger.log()
+        let response = await this.call({
+            method: 'POST',
+            url: '/api/re-render',
+        })
+        return response.data
+    },
     async call(params) {
         try {
             return await axios({
