@@ -7,7 +7,7 @@ import constant
 
 def get_nwn_server_players_count(ip, port):
     url = constant.NWN_CHECKER_URL.replace('${IP}', ip).replace('${PORT}', str(port))
-    response = requests.get(url)
+    response = requests.get(url, headers={"origin": "Hi,this request is from neverwinter.rostiapp.cz server charts."})
 
     try:
         groups = re.findall(constant.NWN_CHECKER_URL_PLAYER_COUNT_REGEX, response.text)
