@@ -8,7 +8,8 @@ const template = `
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/">Statistika</router-link></li>
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/discussion'}" to="/discussion">Diskuze <sup v-if="findRecentDiscussionItemsCount > 0" class="notification">{{findRecentDiscussionItemsCount}}</sup></router-link></li>
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/admin'}" to="/admin">Administrace</router-link></li>
-                    <li><a class="nav-button" href="https://raw.githack.com/kacirekj/demona-kalkulacka/master/dnd_kalkulacka_zraneni.html">Kalkulačka D&D</link></li>
+                    <li class="float-right"><a class="nav-button float-right" href="https://raw.githack.com/kacirekj/demona-kalkulacka/master/dnd_kalkulacka_zraneni.html"><small>Kalkulačka D&D</small></link></li>
+                    <li class="float-right"><a class="nav-button float-right" href="https://new.neverwinter.cz"><small>Neverwinter.cz</small></link></li>
                 </ul>
             </nav>
         </header>
