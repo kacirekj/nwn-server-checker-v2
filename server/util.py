@@ -10,6 +10,7 @@ import matplotlib.dates as md
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
+from matplotlib.transforms import interval_contains
 
 from model import ModulePresence, ModuleInfo
 
@@ -27,8 +28,15 @@ class CustomJSONEncoder(JSONEncoder):
         return JSONEncoder.default(self, obj)
 
 
-def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePresence]):
+def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePresence], since: datetime = None):
     matplotlib.use('Agg')  # Use non-GUI backend
+
+    # Truncate presences by date if needed
+
+    if since is not None:
+        module_presences = [presence for presence in module_presences if presence.timestamp >= since]
+
+    # Calculate
 
     dates = [module_presence.timestamp for module_presence in module_presences]
     players_count = [module_presence.players for module_presence in module_presences]
@@ -52,9 +60,13 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
 
     # Add same starting date so charts are comparable
 
-    dates.insert(0, datetime(2024,12,29,12,12,12,12))
+    if since is None:
+        dates.insert(0, datetime(2024,12,29,12,12,12,12))
+    else:
+        dates.insert(0, since.replace(hour=0, minute=0, second=0, microsecond=0))
     players_count.insert(0, 0)
     avg_players_counts.insert(0, 0)
+
 
 
     plt.figure(figsize=(19.2, 10.8*0.75))
@@ -70,7 +82,11 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
 
     # Set X axis label frequency to each 2nd monday
 
-    plt.gca().xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.MONDAY, interval=4, tz="UTC"))
+    if (max(dates) - min(dates)).days < 28 * 3:
+        interval = 1
+    else:
+        interval = 4
+    plt.gca().xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.MONDAY, interval=interval, tz="UTC"))
 
     # Set X axis vertical line frequency to each monday
 

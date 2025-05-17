@@ -82,13 +82,17 @@ def update_module_presences():
         print(f'Updated presence: {recent_presence}')
         session.commit()
 
-        # Update chart png
+        # Update charts png
 
         module_presences = repository.get_module_presences(module_info_id=module_info.id)
         chart_bytes = util.plot_chart_to_bytes(module_info, module_presences)
+        chart_bytes_recent = util.plot_chart_to_bytes(module_info, module_presences, datetime.datetime.now() - timedelta(days=28))
 
         with open(f'{constant.WEB_ASSET_DIR}/{module_info.name}-chart.png', 'wb') as file:
             file.write(chart_bytes)
+        with open(f'{constant.WEB_ASSET_DIR}/{module_info.name}-chart-recent.png', 'wb') as file:
+            file.write(chart_bytes_recent)
+
 
 
 @context.scheduler.task('interval', seconds=10)

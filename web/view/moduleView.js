@@ -7,7 +7,7 @@ const template = `
         </header>
         <main>
             <h2>{{moduleInfo.name}}</h2>
-            <moduleInfo v-bind:moduleInfo="moduleInfo"></moduleInfo>
+            <moduleInfo v-bind:moduleInfo="moduleInfo" v-bind:displayRecentPeriod="true"></moduleInfo>
         </main>
     </div>
 `

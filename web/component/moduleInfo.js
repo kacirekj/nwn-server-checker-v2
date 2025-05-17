@@ -16,14 +16,23 @@ const template = `
                 </tr>
             </tbody>
         </table>
-        <figure>
-            <img :src="'web/asset/' + moduleInfo.name + '-chart.png'" style="max-width: 100%; max-height: 100%;" alt="Chart not found.">
-        </figure>
+        <h3 v-if="displayRecentPeriod">Od začátku</h3>
+            <figure>
+                <img :src="'web/asset/' + moduleInfo.name + '-chart.png'" style="max-width: 100%; max-height: 100%;" alt="Chart not found.">
+            </figure>
+        <div v-if="displayRecentPeriod">
+            <h3>Poslední 4 týdny</h3>
+            <figure >
+                <img :src="'web/asset/' + moduleInfo.name + '-chart-recent.png'" style="max-width: 100%; max-height: 100%;" alt="Chart not found.">
+            </figure>
+        </div>
+        
+
     </div>
 `
 export default {
     template,
-    props: ['moduleInfo'],
+    props: ['moduleInfo', 'displayRecentPeriod'],
     emits: [],
     data() {
         return {
