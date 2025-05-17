@@ -4,12 +4,13 @@ const template = `
         <header>
             <nav class="noprint sticky">
                 <ul>
-                    <li><router-link to="/"><img style="height: 2em;" src="web/asset/favicon.png"></router-link></li>
-                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/">Statistika</router-link></li>
-                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/discussion'}" to="/discussion">Diskuze <sup v-if="findRecentDiscussionItemsCount > 0" class="notification">{{findRecentDiscussionItemsCount}}</sup></router-link></li>
-                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/admin'}" to="/admin">Administrace</router-link></li>
-                    <li class="float-right"><a class="nav-button float-right" href="https://raw.githack.com/kacirekj/demona-kalkulacka/master/dnd_kalkulacka_zraneni.html"><small>Kalkulačka D&D</small></link></li>
-                    <li class="float-right"><a class="nav-button float-right" href="https://new.neverwinter.cz"><small>Neverwinter.cz</small></link></li>
+                    <li><router-link to="/"><img style="height: 2.5em;" src="web/asset/favicon.png"></router-link></li>
+                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/"><i class="fa-solid fa-house"></i> Statistika</router-link></li>
+                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/discussion'}" to="/discussion"><i class="fa-solid fa-comment"></i> Diskuze <sup v-if="findRecentDiscussionItemsCount > 0" class="notification">{{findRecentDiscussionItemsCount}}</sup></router-link></li>
+                    <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/admin'}" to="/admin"><i class="fa-solid fa-gear"></i> Admin</router-link></li>
+                    <li class="float-right"><a class="nav-button" href="https://iscandar.ch"><small><i class="fa-solid fa-earth-europe"/> Iscandar.ch</small></link></li>
+                    <li class="float-right"><a class="nav-button" href="https://raw.githack.com/kacirekj/demona-kalkulacka/master/dnd_kalkulacka_zraneni.html"></i><small><i class="fa-solid fa-earth-europe"/> Kalkulačka D&D</small></link></li>
+                    <li class="float-right"><a class="nav-button" href="https://new.neverwinter.cz"><small><i class="fa-solid fa-earth-europe"/>  Neverwinter.cz</small></link></li>
                 </ul>
             </nav>
         </header>

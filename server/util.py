@@ -1,6 +1,6 @@
 import io
 import string
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from json import JSONEncoder
 import random
 from typing import List
@@ -8,6 +8,8 @@ from typing import List
 import matplotlib
 import matplotlib.dates as md
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import pandas as pd
 
 from model import ModulePresence, ModuleInfo
 
@@ -54,18 +56,38 @@ def plot_chart_to_bytes(module_info: ModuleInfo, module_presences: List[ModulePr
     players_count.insert(0, 0)
     avg_players_counts.insert(0, 0)
 
+
     plt.figure(figsize=(19.2, 10.8*0.75))
     # plt.suptitle(module_info.name, fontsize=36)
-    plt.xlabel("Date time (UTC)", fontsize=28)
-    plt.ylabel("Players online", fontsize=28)
+    plt.xlabel("Date (UTC)", fontsize=26)
+    plt.ylabel("Players (Peak and Average)", fontsize=26)
     plt.xticks(fontsize=24, rotation=45)
     plt.yticks(fontsize=24)
     plt.grid()
     plt.subplots_adjust(bottom=0.25)
-    plt.gca().xaxis.set_major_formatter(md.DateFormatter('%Y-%m-%d %H:%M'))
+    plt.gca().xaxis.set_major_formatter(md.DateFormatter('%Y-%m-%d'))
     plt.tight_layout()
-    plt.plot(dates, players_count, label="Ab", linewidth=0.5)
-    plt.plot(dates, avg_players_counts, label="CD", linewidth=1.5)
+
+    # Set X axis label frequency to each 2nd monday
+
+    plt.gca().xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=mdates.MONDAY, interval=4, tz="UTC"))
+
+    # Set X axis vertical line frequency to each monday
+
+    all_mondays = pd.date_range(start=min(dates).replace(hour=0, minute=0, second=0, microsecond=0), end=max(dates).replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=7), freq='W-MON', tz="UTC")
+    for monday in all_mondays:
+        plt.axvline(monday, color='lightgray', linestyle='-', linewidth=0.5)
+
+    # Plot lines
+
+    plt.plot(dates, players_count, label="Ab", linewidth=0.4)
+    plt.plot(dates, avg_players_counts, label="CD", linewidth=2.5)
+
+    # Plot single big point with latest playuers count maximum
+
+    plt.scatter([max(dates)], [players_count[len(players_count)-1]], color='blue', s=200, zorder=5, marker='x', linewidths=3)
+    # plt.scatter(dates, avg_players_counts, color='orange', s=200, zorder=5, marker='_', linewidths=1)
+    plt.scatter([max(dates)], [avg_players_counts[len(avg_players_counts)-1]], color='red', s=200, zorder=5, marker='x', linewidths=3)
 
     img_buf = io.BytesIO()
     plt.savefig(img_buf, format='png', transparent=True)
