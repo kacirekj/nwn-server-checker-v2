@@ -6,33 +6,23 @@ const template = `
             <h1>Neverwinter Nights</h1>
         </header>
         <main>
-            <h2>Statistika návštěvnosti modulů</h2>
+            <h2>
+                Statistika návštěvnosti modulů
+            </h2>
+            <input type="text" v-model="search" placeholder="Search by name">
             <p>
-                <input type="text" v-model="search" placeholder="Search by name">
             </p>
             <div v-for="m in findModuleInfos">
-                <h3>{{m.name}}</h3>
-                
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>IP</td>
-                            <td>{{m.ip}}:{{m.port}}</td>
-                        </tr>
-                        <tr>
-                            <td>Hráčů online</td>
-                            <td>{{m.players}}</td>
-                        </tr>
-                        <tr>
-                            <td>Poslední aktualizace (CET)</td>
-                            <td>{{ $moment(m.updated + "Z").tz('Europe/Berlin').format('DD/MM/YYYY, HH:mm:ss') }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <figure>
-                    <img :src="'web/asset/' + m.name + '-chart.png'" style="max-width: 100%; max-height: 100%;" alt="Chart not found.">
-                </figure>
-             </div>
+                <h3>
+                    {{m.name}}
+                    <span>
+                        <router-link class="float-right" :to="{path: '/module', query: {id: m.id}}">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </router-link>
+                    </span>
+                </h3>
+                <moduleInfo v-bind:moduleInfo="m"></moduleInfo>
+            </div>
         </main>
     </div>
 `
@@ -49,10 +39,13 @@ export default {
             return this.moduleInfos
                 .filter(mi => mi.name.includes(this.search))
                 .sort((a, b) => a.name.localeCompare(b.name))
-        }
+        },
     },
     methods: {},
     async mounted() {
         this.moduleInfos = await this.$connector.getModuleInfos();
+        console.log(window.location.search)
+        this.search = this.$routeutil.getParam(window.location, "search", "");
+        this.$routeutil.setParam(window.location, "test", this.search);
     },
 }

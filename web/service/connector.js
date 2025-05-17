@@ -32,11 +32,14 @@ const methods = {
         })
         return response
     },
-    async getModuleInfos() {
+    async getModuleInfos(ids) {
         this.$logger.log()
         let response = await this.call({
             method: 'GET',
-            url: '/api/module-infos'
+            url: '/api/module-infos',
+            params: {
+                ids: ids
+            }
         })
         return response.data
     },

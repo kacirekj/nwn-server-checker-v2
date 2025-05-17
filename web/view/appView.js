@@ -8,9 +8,9 @@ const template = `
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/'}" to="/"><i class="fa-solid fa-house"></i> Statistika</router-link></li>
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/discussion'}" to="/discussion"><i class="fa-solid fa-comment"></i> Diskuze <sup v-if="findRecentDiscussionItemsCount > 0" class="notification">{{findRecentDiscussionItemsCount}}</sup></router-link></li>
                     <li><router-link class="nav-button" :class="{'nav-button-focus': $route.path == '/admin'}" to="/admin"><i class="fa-solid fa-gear"></i> Admin</router-link></li>
-                    <li class="float-right"><a class="nav-button" href="https://iscandar.ch"><small><i class="fa-solid fa-earth-europe"/> Iscandar.ch</small></link></li>
-                    <li class="float-right"><a class="nav-button" href="https://raw.githack.com/kacirekj/demona-kalkulacka/master/dnd_kalkulacka_zraneni.html"></i><small><i class="fa-solid fa-earth-europe"/> Kalkulačka D&D</small></link></li>
-                    <li class="float-right"><a class="nav-button" href="https://new.neverwinter.cz"><small><i class="fa-solid fa-earth-europe"/>  Neverwinter.cz</small></link></li>
+                    <li class="float-right"><a class="nav-button" href="https://iscandar.ch"><small><i class="fa-solid fa-earth-europe"/> Iscandar.ch</small></a></li>
+                    <li class="float-right"><a class="nav-button" href="https://raw.githack.com/kacirekj/demona-kalkulacka/master/dnd_kalkulacka_zraneni.html"></i><small><i class="fa-solid fa-earth-europe"/> Kalkulačka D&D</small></a></li>
+                    <li class="float-right"><a class="nav-button" href="https://new.neverwinter.cz"><small><i class="fa-solid fa-earth-europe"/>  Neverwinter.cz</small></a></li>
                 </ul>
             </nav>
         </header>
